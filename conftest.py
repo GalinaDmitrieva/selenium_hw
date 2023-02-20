@@ -4,9 +4,8 @@ import pytest
 
 
 def pytest_addoption(parser):
-    parser.addoption(
-        "--browser", default="chrome"
-    )
+    parser.addoption("--browser", default="chrome")
+    parser.addoption("--url", default="http://192.168.0.101:8081")
 
 
 @pytest.fixture
@@ -21,3 +20,7 @@ def browser(request):
         driver = webdriver.Safari()
     yield driver
     driver.close()
+
+@pytest.fixture
+def url(request):
+    return request.config.getoption('--url')
