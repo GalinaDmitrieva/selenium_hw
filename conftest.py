@@ -21,7 +21,6 @@ def browser(request):
     yield driver
     driver.close()
 
-
 @pytest.fixture
 def url(request):
     return request.config.getoption('--url')
