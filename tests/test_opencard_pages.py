@@ -1,68 +1,82 @@
-from selenium.webdriver.common.by import By
+import time
+
+import allure
+import pytest
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
-from selenium_hw.page_objects.BasePage import BasePage
-from selenium_hw.page_objects.AdminPage import AdminPage
 from selenium_hw.page_objects.AdminHomePage import AdminHomePage
-from selenium_hw.page_objects.ProductCardAdminView import ProductCardAdminView
-from selenium_hw.page_objects.MainPage import MainPage
-from selenium_hw.page_objects.RegisterUserPage import RegisterUserPage
-from selenium_hw.page_objects.ProductCardUserView import ProductCardUserView
+from selenium_hw.page_objects.AdminPage import AdminPage
 from selenium_hw.page_objects.CatalogUserView import CatalogUserView
+from selenium_hw.page_objects.MainPage import MainPage
+from selenium_hw.page_objects.ProductCardAdminView import ProductCardAdminView
+from selenium_hw.page_objects.ProductCardUserView import ProductCardUserView
+from selenium_hw.page_objects.RegisterUserPage import RegisterUserPage
 
 
-def test_main_page(browser, url):
+@allure.title("Check some existed elements on main page")
+def test_existed_elem_main_page(browser, url):
+    """Check some elements on main page"""
     browser.get(url)
     wait = WebDriverWait(browser, 5)
-    wait.until(EC.visibility_of_element_located(MainPage(browser).LOGO))
-    wait.until(EC.visibility_of_element_located(MainPage(browser).SEARCH_FIELD))
-    wait.until(EC.visibility_of_element_located(MainPage(browser).SEARCH_BUTTON))
-    wait.until(EC.visibility_of_element_located(MainPage(browser).CURRENCY_MENU))
-    wait.until(EC.visibility_of_element_located(MainPage(browser).CART_LIST))
+    MainPage(browser).element(MainPage(browser).LOGO)
+    MainPage(browser).element(MainPage(browser).SEARCH_FIELD)
+    MainPage(browser).element(MainPage(browser).SEARCH_BUTTON)
+    MainPage(browser).element(MainPage(browser).CURRENCY_MENU)
+    MainPage(browser).element(MainPage(browser).CART_LIST)
+    time.sleep(10)
 
 
-def test_catalog(browser, url):
+@allure.title("Check some existed elements on Catalog page for user")
+def test_existed_elem_catalog(browser, url):
+    """Check some elements on Catalog page for user"""
     browser.get(f'{url}/desktops')
     wait = WebDriverWait(browser, 5)
-    wait.until(EC.visibility_of_element_located(CatalogUserView(browser).NAVIGATION_PANE))
-    wait.until(EC.visibility_of_element_located(CatalogUserView(browser).DEFAULT_VIEW_OPTION))
-    wait.until(EC.visibility_of_element_located(CatalogUserView(browser).SORT_LIST))
-    wait.until(EC.visibility_of_element_located(CatalogUserView(browser).LIST_VIEW_OPTION))
-    wait.until(EC.visibility_of_element_located(CatalogUserView(browser).GRID_VIEW_OPTION))
+    CatalogUserView(browser).element(CatalogUserView(browser).NAVIGATION_PANE)
+    CatalogUserView(browser).element(CatalogUserView(browser).DEFAULT_VIEW_OPTION)
+    CatalogUserView(browser).element(CatalogUserView(browser).SORT_LIST)
+    CatalogUserView(browser).element(CatalogUserView(browser).LIST_VIEW_OPTION)
+    CatalogUserView(browser).element(CatalogUserView(browser).GRID_VIEW_OPTION)
 
 
-def test_card(browser, url):
+@allure.title("Check some existed elements on Product card page for user")
+def test_existed_elem_card(browser, url):
+    """Check some elements on Product card page for user"""
     browser.get(f'{url}/desktops/htc-touch-hd?sort=p.sort_order&order=ASC')
     wait = WebDriverWait(browser, 5)
-    wait.until(EC.visibility_of_element_located(ProductCardUserView(browser).ADD_TO_CART_BUTTON))
-    wait.until(EC.visibility_of_element_located(ProductCardUserView(browser).SHARE_BUTTON))
-    wait.until(EC.visibility_of_element_located(ProductCardUserView(browser).QUANTITY_FIELD))
-    wait.until(EC.visibility_of_element_located(ProductCardUserView(browser).COMMON_FIELD_RATING))
-    wait.until(EC.visibility_of_element_located(ProductCardUserView(browser).TABS_PANE))
+    ProductCardUserView(browser).element(ProductCardUserView(browser).ADD_TO_CART_BUTTON)
+    ProductCardUserView(browser).element(ProductCardUserView(browser).SHARE_BUTTON)
+    ProductCardUserView(browser).element(ProductCardUserView(browser).QUANTITY_FIELD)
+    ProductCardUserView(browser).element(ProductCardUserView(browser).COMMON_FIELD_RATING)
+    ProductCardUserView(browser).element(ProductCardUserView(browser).TABS_PANE)
 
 
-def test_admin_page(browser, url):
+@allure.title("Check some existed elements on admin authorization page ")
+def test_existed_elem_admin_page(browser, url):
+    """ Check some elements on admin authorization page """
     browser.get(f'{url}/admin')
     wait = WebDriverWait(browser, 5)
-    wait.until(EC.visibility_of_element_located(AdminPage(browser).ADMIN_USERNAME))
-    wait.until(EC.visibility_of_element_located(AdminPage(browser).ADMIN_PASSWORD))
-    wait.until(EC.visibility_of_element_located(AdminPage(browser).FORGOTTEN_PSWD_LINK))
-    wait.until(EC.visibility_of_element_located(AdminPage(browser).LOGIN_BTN))
-    wait.until(EC.visibility_of_element_located(AdminPage(browser).OPENCART_LINK))
+    AdminPage(browser).element(AdminPage(browser).ADMIN_USERNAME)
+    AdminPage(browser).element(AdminPage(browser).ADMIN_PASSWORD)
+    AdminPage(browser).element(AdminPage(browser).FORGOTTEN_PSWD_LINK)
+    AdminPage(browser).element(AdminPage(browser).LOGIN_BTN)
+    AdminPage(browser).element(AdminPage(browser).OPENCART_LINK)
 
 
-def test_create_user_page(browser, url):
+@allure.title("Check some existed elements on user creation page")
+def test_existed_elem_create_user_page(browser, url):
+    """Check some elements on user creation page"""
     browser.get(f'{url}/index.php?route=account/register')
     wait = WebDriverWait(browser, 5)
-    wait.until(EC.visibility_of_element_located(RegisterUserPage(browser).FIRST_NAME))
-    wait.until(EC.visibility_of_element_located(RegisterUserPage(browser).LAST_NAME))
-    wait.until(EC.visibility_of_element_located(RegisterUserPage(browser).EMAIL))
-    wait.until(EC.visibility_of_element_located(RegisterUserPage(browser).PASSWORD))
-    wait.until(EC.visibility_of_element_located(RegisterUserPage(browser).CONTINUE_BUTTON))
+    RegisterUserPage(browser).element(RegisterUserPage(browser).FIRST_NAME)
+    RegisterUserPage(browser).element(RegisterUserPage(browser).LAST_NAME)
+    RegisterUserPage(browser).element(RegisterUserPage(browser).EMAIL)
+    RegisterUserPage(browser).element(RegisterUserPage(browser).PASSWORD)
+    RegisterUserPage(browser).element(RegisterUserPage(browser).CONTINUE_BUTTON)
 
 
+@allure.title("Check successful addition a product in product list")
 def test_add_product_to_list(browser, url):
+    """Check successful addition a product in product list"""
     prod_name = 'test_product_123'
     meta_tags = 'meta_tags_123'
     model = 'model123'
@@ -88,7 +102,9 @@ def test_add_product_to_list(browser, url):
         find_product_in_list_by_name(product_name=prod_name)
 
 
+@allure.title("Check the product deletion (by product name)")
 def test_delete_product_by_name(browser, url):
+    """Check the product deletion (by product name)"""
     prod_name = 'test_product_123'
 
     browser.get(f'{url}/admin')
@@ -104,10 +120,12 @@ def test_delete_product_by_name(browser, url):
         remove_product_from_list_by_name(product_name=prod_name)
 
 
-def test_create_new_user(browser, url):
+@allure.title("Creation of new user with valid credentials")
+def test_create_new_valid_user(browser, url):
+    """Check creation a valid user"""
     f_name = "test"
     l_name = "test"
-    email = "test3@tt.ru"
+    email = "test4@tt.ru"
     phone = "1231231"
     pswd = "qwerty"
     pswd_conf = "qwerty"
@@ -125,7 +143,10 @@ def test_create_new_user(browser, url):
                                                              pswd_conf=pswd_conf).success_created_user()
 
 
-def test_change_currency(browser, url):
+@allure.title("Check currency changing on main page to valid one")
+@pytest.mark.parametrize('currency', ['EUR', 'USD', 'GBR', 'invalid'])
+def test_valid_change_currency(browser, url, currency):
+    """Check currency changing on main page to valid one"""
     browser.get(url)
     wait = WebDriverWait(browser, 5)
-    MainPage(browser).open_currency_menu().change_currency(currency="EUR")
+    MainPage(browser).open_currency_menu().change_currency(currency=currency)

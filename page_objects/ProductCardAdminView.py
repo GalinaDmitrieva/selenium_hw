@@ -1,8 +1,7 @@
-import time
-from selenium.webdriver.support import expected_conditions as EC
+import allure
 from selenium.webdriver.common.by import By
+
 from selenium_hw.page_objects.BasePage import BasePage
-from selenium.webdriver.support.wait import WebDriverWait
 
 
 class ProductCardAdminView(BasePage):
@@ -17,13 +16,18 @@ class ProductCardAdminView(BasePage):
     APPLY_FILTER_BUTTON = (By.ID, "button-filter")
 
     def fill_mandatory_fields(self, product_name, meta_tag_title, model):
+        self.logger.info("I fill new product form with product name {}, meta tag title {}".
+                         format(product_name, meta_tag_title))
         self._input(self.element(self.PRODUCT_NAME), product_name)
         self._input(self.element(self.META_TAG_TITLE), meta_tag_title)
+        self.logger.info("I switch to tab Data")
         self.click(self.element(self.TAB_DATA))
+        self.logger.info("I fill new product form with model {}".format(model))
         self._input(self.element(self.MODEL), model)
         return self
 
     def save_product(self):
+        self.logger.info("I save new product")
         self.click(self.element(self.SAVE_BUTTON))
         return self
 
@@ -37,6 +41,7 @@ class ProductCardAdminView(BasePage):
         return self
 
     def num_pages_of_table(self):
+        self.logger.info("I calculate number of table pages")
         num_pages = 1
         elem = self.element((By.CLASS_NAME, "col-sm-6.text-right"))
         txt = elem.text
@@ -51,6 +56,7 @@ class ProductCardAdminView(BasePage):
         return num_elem
 
     def find_product_in_list_by_name(self, product_name):
+        self.logger.info("I find the product in table and return checkbox element")
         # находим кол-во страниц таблицы
         num_pages = self.num_pages_of_table()
         i = 1
@@ -87,9 +93,14 @@ class ProductCardAdminView(BasePage):
         if checkbox_element is not None:
             return checkbox_element
         else:
+            allure.attach(
+                body=self.driver.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
             raise AssertionError("Нет такого продукта")
 
     def remove_product_from_list_by_name(self, product_name):
+        self.logger.info("I delete product {} from product list".format(product_name))
         element = self.find_product_in_list_by_name(product_name)
         if element is not None:
             element.click()
@@ -97,3 +108,9 @@ class ProductCardAdminView(BasePage):
             delBtn.click()
             al_obj = self.driver.switch_to.alert
             al_obj.accept()
+        else:
+            allure.attach(
+                body=self.driver.get_screenshot_as_png(),
+                name="screenshot_image",
+                attachment_type=allure.attachment_type.PNG)
+            raise AssertionError("Невозможно удалить продукт")
